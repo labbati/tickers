@@ -24,5 +24,7 @@ release:
 	@git add --all data/
 	@git commit -m "Release v$(version)"
 	@git push
+	@git tag "v$(version)"
+	@git push --tag "v$(version)"
 
 .PONY: all clean release
