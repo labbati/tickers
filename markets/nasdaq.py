@@ -20,11 +20,12 @@ class NasdaqSpider(scrapy.Spider):
         data = json.loads(response.body_as_unicode())['data']
         for stock in data:
             yield {
+                'market': self.name,
                 'ticker': stock['ticker'],
                 'company': stock['company'],
             }
 
-        # if len(data) > 0:
-        #     self.page = self.page + 1 if self.page else 2
-        #     next_url = self.url_template.format(self.page)
-        #     yield response.follow(next_url, self.parse)
+        if len(data) > 0:
+            self.page = self.page + 1 if self.page else 2
+            next_url = self.url_template.format(self.page)
+            yield response.follow(next_url, self.parse)

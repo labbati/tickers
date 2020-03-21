@@ -1,8 +1,22 @@
 clean:
-	@rm -rf ./.tmp/*
+	@rm -rf ./.tmp/*.*
 
-help:
-	@echo "Help!"
+all: nasdaq.all nyse.all
 
-%.dump: clean %.dump.json %.dump.csv %.dist
-	@echo "Scraping data for: $@"
+%.all: clean %.download.json %.convert.csv %.dist
+	@echo "Downloaded data for: $*"
+
+%.download.json: clean
+	@scrapy runspider ./markets/$*.py -o ./.tmp/$*.json
+	@echo "Downloaded JSON data for: $*"
+
+%.convert.csv: clean %.download.json
+	@cat .tmp/$*.json | jq -r '(map(keys) | add | unique) as $$cols | map(. as $$row | $$cols | map($$row[.])) as $$rows | $$cols, $$rows[] | @csv' > .tmp/$*.csv
+	@echo "Converted JSON data for $* into csv"
+
+%.dist: %.download.json %.convert.csv
+	@mkdir -p data/$*
+	@cp .tmp/$*.json data/$*/
+	@cp .tmp/$*.csv data/$*/
+
+.PONY: all clean
