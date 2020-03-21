@@ -19,4 +19,10 @@ all: nasdaq.all nyse.all
 	@cp .tmp/$*.json data/$*/
 	@cp .tmp/$*.csv data/$*/
 
-.PONY: all clean
+release: version=`date +'%Y.%M.%d'`
+release:
+	@git add --all data/
+	@git commit -m "Release v$(version)"
+	@git push
+
+.PONY: all clean release
