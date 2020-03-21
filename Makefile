@@ -22,9 +22,9 @@ all: nasdaq.all nyse.all
 release: version=`date +'%Y.%M.%d'`
 release:
 	@git add --all data/
-	@git commit -m "Release v$(version)"
+	@git commit --allow-empty -m "Release v$(version)"
 	@git push
 	@git tag "v$(version)"
-	@git push --tag "v$(version)"
+	@git push --tag origin "v$(version)"
 
 .PONY: all clean release
