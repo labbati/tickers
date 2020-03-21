@@ -5,7 +5,7 @@ import json
 
 
 class NasdaqSpider(scrapy.Spider):
-    name = 'nasdaq'
+    name = 'NASDAQ'
     user_agent = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0'
     url_template = 'https://www.nasdaq.com/api/v1/screener?page={}&pageSize=100'
     start_urls = [

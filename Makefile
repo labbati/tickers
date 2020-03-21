@@ -19,7 +19,7 @@ all: nasdaq.all nyse.all
 	@cp .tmp/$*.json data/$*/
 	@cp .tmp/$*.csv data/$*/
 
-release: version=`date +'%Y.%M.%d'`
+release: version=`date +'%Y.%m.%d'`
 release:
 	@git add --all data/
 	@git commit --allow-empty -m "Release v$(version)"
